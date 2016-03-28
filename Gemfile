@@ -2,4 +2,5 @@
 source "https://rubygems.org"
 
 gem "fastercsv"
+gem "thor"
 gem "pry"
