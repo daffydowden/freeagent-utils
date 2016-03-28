@@ -91,6 +91,10 @@ class BarclaycardRow
     output << "\nTransaction_Description: " + (@transaction_description || "")
     return output.to_s
   end
+
+  def to_freeagent_csv
+    "#{date_posted},#{output_amount},#{description}"
+  end
 end
 
 monthly_transactions = CSV.parse(File.open("./Monthly\ Transactions\ -\ 12-2015.txt"))
@@ -98,13 +102,10 @@ monthly_transactions = monthly_transactions[1..monthly_transactions.length].coll
 
 
 output_file = File.new('output.csv', 'w+')
-
-#binding.pry 
-
 monthly_transactions.each do |row|
   #Format
   #DATE - dd/mm/yyyy,Amount - 2dp,Description
-  output_file.puts "#{row.date_posted},#{row.output_amount},#{row.description}"
+  output_file.puts row.to_freeagent_csv
 end
 
 output_file.close
