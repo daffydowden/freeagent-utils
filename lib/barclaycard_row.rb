@@ -1,33 +1,42 @@
 require 'date'
 
 class BarclaycardRow
-  attr_reader   :merchant_location,
-                :original_amount
-  attr_writer   :date_occurred,
-                :date_posted
-  attr_accessor :unit_name_and_nbr,
-                :cardholder_name,
-                :merchant,
+  #attr_reader   :amount
+
+  attr_writer   :transaction_date,
+                :posted_date
+
+  attr_accessor :cardholder_name,
                 :account_number,
-                :mcc,
+                :merchant_name,
+                :currency,
+                :original_amount,
+                :original_currency,
                 :conversion_rate,
-                :allocation,
-                :transaction_description
+                :transaction_time,
+                :authorisation_code,
+                :transaction_id,
+                :MCC,
+                :MCC_description,
+                :merchant_category,
+                :merchant_towncity,
+                :merchant_countystate,
+                :merchant_postcodezipcode,
+                :transaction_type,
+                :amount,
+                :statement_cycle
 
   def initialize(row)
-    @unit_name_and_nbr = row[0]
-    @cardholder_name = row[1] 
-    @merchant = row[2] 
-    self.merchant_location = row[3] 
-    @account_number = row[4] 
-    @mcc = row[5] 
-    @date_occurred = Date.strptime(row[6], "%m/%d/%Y")
-    @date_posted = Date.strptime(row[7],  "%m/%d/%Y")
-    self.original_amount = row[8]
-    @conversion_rate = row[9]
-    self.settlement_amount = row[10]
-    @allocation = row[11].to_s
-    @transaction_description = row[12].to_s
+    @cardholder_name = row[0] 
+    @merchant_name = row[3] 
+    @account_number = row[1] 
+    @mcc = row[13] 
+    @date_occurred = DateTime.parse(row[2], "%d.%m.%Y")
+    @date_posted = DateTime.parse(row[9],  "%d.%m.%Y")
+    self.settlement_amount = row[4]
+    #@conversion_rate = row[8]
+
+    #self.settlement_amount = row[10]
   end 
 
   def date_occurred
@@ -51,7 +60,7 @@ class BarclaycardRow
   end
 
   def description
-    @merchant.strip
+    @merchant_name.strip
   end
 
   def original_amount=(amt)
