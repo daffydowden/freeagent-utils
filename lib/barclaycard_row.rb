@@ -1,8 +1,6 @@
 require 'date'
 
 class BarclaycardRow
-  #attr_reader   :amount
-
   attr_writer   :transaction_date,
                 :posted_date
 
@@ -26,13 +24,17 @@ class BarclaycardRow
                 :amount,
                 :statement_cycle
 
+  def self.headers 
+    ['Date Posted', 'Output Amount', 'Description']
+  end
+
   def initialize(row)
     @cardholder_name = row[0] 
     @merchant_name = row[3] 
     @account_number = row[1] 
     @mcc = row[13] 
-    @date_occurred = DateTime.parse(row[2], "%d.%m.%Y")
-    @date_posted = DateTime.parse(row[9],  "%d.%m.%Y")
+    @date_occurred = DateTime.parse(row[2])
+    @date_posted = DateTime.parse(row[9])
     self.settlement_amount = row[4]
     #@conversion_rate = row[8]
 
@@ -98,7 +100,7 @@ class BarclaycardRow
     return output.to_s
   end
 
-  def to_freeagent_csv
+  def to_freeagent_csv_row
     #date - dd/mm/yyyy,Amount - 2dp,Description
     "#{date_posted},#{output_amount},#{description}"
   end

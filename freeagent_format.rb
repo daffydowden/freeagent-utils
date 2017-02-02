@@ -5,6 +5,7 @@ require_relative 'lib/barclaycard_row'
 require 'pry'
 
 require 'tty-prompt'
+require 'tty-table'
 
 class FreeAgentCSV < Thor
 
@@ -35,15 +36,19 @@ class FreeAgentCSV < Thor
     monthly_transactions = CSV.parse(File.open(input_file))
     monthly_transactions = monthly_transactions[1..monthly_transactions.length].collect{|row| BarclaycardRow.new(row)}
 
+    table = TTY::Table.new header: BarclaycardRow.headers
+
     output_file = File.new(output_file, 'w+')
     monthly_transactions.each do |row|
-      output_file.puts row.to_freeagent_csv
+      output_file.puts row.to_freeagent_csv_row
+      table << row.to_freeagent_csv_row.split(',')
     end
 
     output_file.close
     puts "Finished writing transactions to '#{File.basename output_file}'"
+
+    puts table.render :unicode, alignments: [:left, :right, :left]
   end
 end
 
 FreeAgentCSV.start(ARGV)
-
