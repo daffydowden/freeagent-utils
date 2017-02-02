@@ -16,6 +16,10 @@ class FreeAgentCSV < Thor
   def barclaycard()
     prompt = TTY::Prompt.new
 
+    if ARGV.empty?
+      puts "Running Barclaycard Task by default"
+    end
+
     # Input file
     if (!input_file = options[:input_file]) 
       csv_files = Dir.glob("*.csv")
@@ -49,6 +53,8 @@ class FreeAgentCSV < Thor
 
     puts table.render :unicode, alignments: [:left, :right, :left]
   end
+
+  default_task :barclaycard
 end
 
 FreeAgentCSV.start(ARGV)
