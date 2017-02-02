@@ -10,7 +10,7 @@ Currently only compatible with CSV files output from Barclaycard Commercial stat
 
 ### Barclaycard
 
-`ruby freeagent_format <input_file> [--output_file <output_file>]`
+`ruby freeagent_format <input_file> [--output-file <output_file>]`
 
 Uses the CSV output from the 'Monthly Transactions' report inside of your Barclaycard commercial account. This format for this report is as follows:
 
