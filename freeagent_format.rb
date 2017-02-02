@@ -4,13 +4,32 @@ require 'thor'
 require_relative 'lib/barclaycard_row'
 require 'pry'
 
+require 'tty-prompt'
+
 class FreeAgentCSV < Thor
 
-  desc "barclaycard <input_file>", "take a BarclayCard CSV <inptut_file> and output FreeAgent compatible CSV"
-  option :output_file
-  def barclaycard(input_file)
-    output_file = options[:output_file] || 'output.csv' 
 
+  desc "barclaycard", "take a BarclayCard CSV and output FreeAgent compatible CSV"
+  option :input_file
+  option :output_file
+  def barclaycard()
+    prompt = TTY::Prompt.new
+
+    # Input file
+    if (!input_file = options[:input_file]) 
+      csv_files = Dir.glob("*.csv")
+      input_file = prompt.select("Which CSV file contains your Barclaycard transactions?", csv_files)
+    end
+    puts "Using #{input_file}" 
+    
+    # Output file
+    if (!output_file = options[:output_file]) 
+      output_file = prompt.ask('Where would you like the output written?', default: 'output.csv')
+    end
+    puts "Writing to #{output_file}"
+
+
+    # The MEAT
     puts "Reading Barclaycard transactions from #{input_file}"
 
     monthly_transactions = CSV.parse(File.open(input_file))
