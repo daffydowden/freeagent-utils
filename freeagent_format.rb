@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 require 'csv'
 require 'thor'
 require_relative 'lib/barclaycard_row'
