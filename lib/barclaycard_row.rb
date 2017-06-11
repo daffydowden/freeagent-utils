@@ -50,7 +50,7 @@ class BarclaycardRow
   end
 
   def settlement_amount
-    @settlement_amount[:pounds] + '.' + (@settlement_amount[:pence].to_i / 100).to_s.rjust(2,'0')
+    @settlement_amount[:pounds] + '.' + @settlement_amount[:pence].ljust(2,'0')
   end
 
   def output_amount
